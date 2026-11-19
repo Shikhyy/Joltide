@@ -1,0 +1,294 @@
+@import "tailwindcss";
+
+/* JOLTIDE: "Night shift". Warm noir, sodium signal, hairlines instead of glass. */
+:root {
+  --bg: #0a090b;
+  --panel: #121115;
+  --panel-2: #18161c;
+  --ink: #ede8e0;
+  --dim: #a8a299;
+  --faint: #6e6961;
+  --line: rgba(237, 232, 224, 0.1);
+  --line-2: rgba(237, 232, 224, 0.2);
+  --signal: #ff5a1f;
+  --accent: #ff5a1f;
+  --accent2: #ffc46b;
+  --ok: #7bd88f;
+  --bad: #ff6b6b;
+  --warn: #ffc46b;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-ink: var(--ink);
+  --color-dim: var(--dim);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-2);
+  --color-signal: var(--signal);
+  --color-cyan: var(--accent2);
+  --color-violet: var(--accent);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-bad: var(--bad);
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-head), var(--font-body), sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+html {
+  color-scheme: dark;
+  background: var(--bg);
+}
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+  font-feature-settings: "ss01", "cv11";
+}
+/* film grain */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+::selection {
+  background: var(--accent);
+  color: #0a090b;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+/* ---- surfaces ---- */
+.panel,
+.glass,
+.glass-strong {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.glass-strong {
+  border-color: var(--line-2);
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+}
+.sheet {
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+/* ---- controls ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  padding: 0 1.15rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: 1px solid var(--line-2);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1), background 0.2s, border-color 0.2s, filter 0.2s;
+}
+.btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+  border-color: color-mix(in srgb, var(--ink) 38%, transparent);
+}
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.btn:focus-visible,
+.input:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent2);
+  outline-offset: 3px;
+}
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0a090b;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent);
+  border-color: var(--accent);
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+.btn-sm {
+  min-height: 34px;
+  padding: 0 0.85rem;
+  font-size: 0.8rem;
+  border-radius: 8px;
+}
+.input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.6rem 0.9rem;
+  border-radius: 10px;
+  background: #0d0c0f;
+  border: 1px solid var(--line-2);
+  color: var(--ink);
+  font-size: 0.92rem;
+  transition: border-color 0.15s;
+}
+.input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+.input::placeholder {
+  color: var(--faint);
+}
+textarea.input {
+  resize: vertical;
+}
+select.input {
+  appearance: none;
+}
+.label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.22rem 0.55rem;
+  border-radius: 6px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--line-2);
+  color: var(--dim);
+  background: transparent;
+}
+.display {
+  font-family: var(--font-head), var(--font-body), sans-serif;
+  letter-spacing: -0.035em;
+  font-variation-settings: "wdth" 90;
+}
+.grad-text {
+  color: var(--accent);
+}
+.mono {
+  font-family: var(--font-geist-mono), monospace;
+}
+.scroll-thin::-webkit-scrollbar {
+  width: 6px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: var(--line-2);
+  border-radius: 6px;
+}
+.hair {
+  border-top: 1px solid var(--line);
+}
+
+/* ---- motion helpers ---- */
+.mask-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  animation: rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 12px transparent;
+  }
+}
+.pulse-ring {
+  animation: pulse-ring 1.8s ease-out infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+.blink {
+  animation: blink 1.4s steps(2) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .marquee {
+    animation: none;
+  }
+}
+
+@keyframes hero-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* OBS overlay: transparent page, no grain, no nav */
+body.overlay::after {
+  display: none;
+}
