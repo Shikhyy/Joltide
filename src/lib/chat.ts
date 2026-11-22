@@ -55,8 +55,14 @@ async function ensureConnected(identity: Identity): Promise<{ ok: boolean; reaso
     initialized = true;
   }
   if (connectedAs === identity.id) return { ok: true };
-  const r = await NCEngine.connect({ token: s.token });
-  if (r.code !== 0) return { ok: false, reason: `Connect failed (code ${r.code})` };
+  // The first connect can fail transiently (e.g. 35008 server unavailable while the socket warms up); retry with backoff.
+  let code = -1;
+  for (let attempt = 0; attempt < 4; attempt++) {
+    if (attempt > 0) await new Promise((r) => setTimeout(r, 1000 * attempt));
+    code = (await NCEngine.connect({ token: s.token })).code;
+    if (code === 0) break;
+  }
+  if (code !== 0) return { ok: false, reason: `Connect failed (code ${code})` };
   connectedAs = identity.id;
   return { ok: true };
 }

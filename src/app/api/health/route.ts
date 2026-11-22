@@ -5,7 +5,9 @@ export const dynamic = "force-dynamic";
 
 /** Configuration status only. Never returns secrets. */
 export function GET() {
-  const redis = Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+  const redis = Boolean(
+    (process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL) && (process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN),
+  );
   return NextResponse.json({
     ok: true,
     nexconn: nexconnEnabled,

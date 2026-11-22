@@ -10,8 +10,9 @@ import type { Aggregate } from "./types";
  * Nexconn owns messaging; this store owns experience truth.
  */
 
-const URL_ = process.env.UPSTASH_REDIS_REST_URL;
-const TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN;
+// The Vercel Marketplace Upstash integration names these KV_REST_API_*; accept both spellings.
+const URL_ = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
+const TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
 const useRedis = Boolean(URL_ && TOKEN);
 
 async function redis<T>(cmd: (string | number)[]): Promise<T> {
