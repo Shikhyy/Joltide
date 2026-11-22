@@ -17,7 +17,7 @@
 
 <br />
 
-<img src="docs/screenshots/home.jpg" alt="JOLTIDE home" width="860" />
+<img src="docs/screenshots/home.jpg" alt="JOLTIDE landing page" width="860" />
 
 </div>
 

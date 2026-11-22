@@ -16,6 +16,7 @@ export function Logo({ size = 20 }: { size?: number }) {
 
 const links = [
   { href: "/", label: "Home" },
+  { href: "/play", label: "Play" },
   { href: "/market", label: "Store" },
   { href: "/studio", label: "Studio" },
 ];
